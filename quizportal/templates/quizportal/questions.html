@@ -1,0 +1,347 @@
+{% load mathfilters %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiz</title>
+	<SCRIPT type="text/javascript">
+		function preventBack(){window.history.forward();}
+		setTimeout("preventBack()", 0);
+		window.onunload=function(){null};
+	</SCRIPT>
+	{% load static %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href={% static 'quiz/profile.css' %}>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style type="text/css">
+	.loader {
+		border: 16px solid #f3f3f3;
+		border-radius: 50%;
+		border-top: 16px solid blue;
+		border-bottom: 16px solid blue;
+		width: 120px;
+		height: 120px;
+		-webkit-animation: spin 2s linear infinite;
+		animation: spin 2s linear infinite;
+	}
+	.container .btn1 {
+		position: absolute;
+		top:0;
+		left:0;
+		border: none;
+		color: black;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		cursor: pointer;
+	}
+
+	.container .btn1:hover {
+		background-color: red;
+		color: white;
+	}
+
+	.container .btn {
+		position: absolute;
+		top:0;
+		right:0;
+		border: none;
+		color: black;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		cursor: pointer;
+	}
+
+	.container .btn:hover {
+		background-color: black;
+		color: white;
+	}
+	.container .button{
+		position: absolute;
+		top: 100%;
+		left: 40%;
+		border: none;
+		color: black;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		cursor: pointer;
+	}
+	.container .button:hover {
+		background-color: black;
+		color: white;
+	}
+
+
+	.option-question {
+		align:left;
+		clear: both;
+		margin: 0 0px;
+	}
+	option-property{
+		margin-left:3.25em;
+		word-wrap: break-word;
+	}
+	label {
+		width: 100%;
+		border-radius: 3px;
+		margin-left: .5em;
+	}
+
+		/* hide input
+		input.radio:empty {
+			margin-left: -999px;
+			}*/
+			input[type="radio"]{
+				width: 2em;
+				height: 2em;
+			}
+
+			input.radio:empty ~ label {
+				position: relative;
+				float: left;
+				margin-top: 2em;
+				cursor: pointer;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+			input.radio:empty ~ label:before {
+				position: absolute;
+				display: block;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				content: '';
+				width: 2.5em;
+				background: #D1D3D4;
+				border-radius: 3px 0 0 3px;
+			}
+
+			/* toggle hover */
+			input.radio:hover:not(:checked) ~ label:before {
+				content:'\2714';
+				text-indent: .9em;
+				color: #C2C2C2;
+			}
+
+			input.radio:hover:not(:checked) ~ label {
+				color: #888;
+			}
+
+			/* toggle on */
+			input.radio:checked ~ label:before {
+				content:'\2714';
+				text-indent: .9em;
+				color: #9CE2AE;
+				background-color: #4DCB6D;
+			}
+
+			input.radio:checked ~ label {
+				color: #777;
+			}
+			body {
+				background-image: linear-gradient(to right, rgb(0, 0, 255), rgb(255, 128, 128));
+			}
+			#tower{
+				background-color:#419D78;
+				color:#EFD0CA;
+				font-size:20px;
+				text-align:center;
+			}
+			html,body {
+				padding: 0;
+				margin: 0;
+			}
+
+
+			footer {
+
+				width: 100%;
+				bottom: 0;
+				position: fixed;
+			}
+			.fa {
+				padding: 5px;
+				font-size: 10px;
+				width: 15px;
+				text-align: center;
+				text-decoration: none;
+				border-radius:10px;
+			}
+
+			/* Add a hover effect if you want */
+			.fa:hover {
+				opacity: 0.7;
+			}
+
+			/* Set a specific color for each brand */
+
+			/* Facebook */
+			.fa-facebook {
+				background: #3B5998;
+				color: white;
+			}
+
+
+		</style>
+	</head>
+
+	<body style="padding: 20px;">
+		<div class="container">
+			<ul style="display:none">
+			</ul>
+			<div id="tower">Time left = <span id="timer"></span></div>
+			<p id="timeleft" style="display:none;"></p>
+			<div class="row" class="align-items-center" style="justify-content:center;margin-top:5%;">
+				<div class="col-sm-8">
+					{% for i in question %}
+					<div class="card-header text-white bg-info mb-3" style="text-align:left;">
+						<h3>{{i.id_no}} :- {{ i.question }}</h3>
+					</div>
+					<div class="card">
+						<div class="card-body box-shadow"  name="user_choice" id="user_choice">
+							<h5 class="card-title"></h5>
+							<form method="post" action="{% url 'detail' i.id_no|addition:1 %}">
+								<input type="hidden" name="quesid" value={{ i.id_no }} readonly>
+								{% csrf_token %}
+								<div class="form-check" style="margin-bottom:15px;">
+									<input class="form-check-input" type="radio" name="choice"  id="radio1" value="A" required>
+									<label class="form-check-label" for="radio1" style="padding:10px;">
+										{{ i.optionA }}
+									</label>
+								</div>
+								<div class="form-check" style="margin-bottom:15px;">
+									<input class="form-check-input" type="radio" name="choice"  id="radio2" value="B" >
+									<label class="form-check-label" for="radio2" style="padding:10px;">
+										{{ i.optionB }}
+									</label>
+								</div>
+								<div class="form-check" style="margin-bottom:15px;">
+									<input class="form-check-input" type="radio" name="choice"  id="radio3" value="C" >
+									<label class="form-check-label" for="radio3" style="padding:10px;">
+										{{ i.optionC}}
+									</label>
+								</div>
+								<div class="form-check" style="margin-bottom:15px;">
+									<input class="form-check-input" type="radio" name="choice"  id="radio4" value="D" >
+									<label class="form-check-label" for="radio4" style="padding:10px;">
+										{{ i.optionD }}
+									</label>
+								</div>
+								<div class="container">
+									<button type="submit" class="button" style="margin-top:25px;" ><b>Submit</b></button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<form method="POST" action="{% url 'score' i.id_no %}">
+			{% csrf_token %}
+			<div class="container">
+				<button id="button" class="btn" ><b>Score</b></button>
+			</div>
+		</form>
+		<div class="container">
+			<a href="/ended"><button id="button" class="btn1" ><b>End Quiz</b></button></a>
+		</div>
+		{% endfor %}
+
+		<!--JavaScript-->
+		<script type="text/javascript">
+			startTimer();
+			function startTimer() {
+
+				var timeArray = "{{timer}}"
+				var timeArray1=timeArray.split(/[:]+/);
+				
+				//End Time Time
+				var h = timeArray1[0];
+				var m = timeArray1[1];
+				var s = timeArray1[2];
+
+				//Current Time
+				var d=new Date().toUTCString();
+				d=d.split(/[' ']+/);
+				d=d[4].split(/[:]+/);
+				var ch=d[0];
+				var cm=d[1];
+				var cs=d[2];
+
+				//Conversion to Seconds
+				var htos=((h - ch) * 60 * 60);
+				if(htos<=0)
+				{
+					htos=0
+				}
+				var mtos=((m - cm) * 60);
+				if(mtos<=0)
+				{
+					mtos=0
+				}
+				var sec =(s - cs);
+				var secs=mtos+htos+sec;
+
+				//Conversion to hh:mm:ss
+				var hours = Math.floor(secs / (60 * 60));
+				if(hours<=0)
+				{
+					hours="00"
+				}
+				else if(hours>0 && hours <=9)
+				{
+					hours="0"+hours
+				}
+
+				var divisor_for_minutes = secs % (60 * 60);
+				var minutes = Math.floor(divisor_for_minutes / 60);
+				if(minutes<=0)
+				{
+					minutes="00"
+				}
+				else if(minutes>0 && minutes <=9)
+				{
+					minutes="0"+minutes
+				}
+
+				var divisor_for_seconds = divisor_for_minutes % 60;
+				var seconds = Math.ceil(divisor_for_seconds);
+				if(seconds<=0)
+				{
+					seconds="00"
+				}
+				else if(seconds > 0 && seconds <=9)
+				{
+					seconds="0"+seconds
+				}
+
+				//Check if the Quiz has Ended
+				if(hours <= 0 && minutes <= 0 && seconds <= 0)
+				{
+					alert("Quiz Has Ended");
+					location.reload(true);
+				}
+
+				var time=hours+ ":" + minutes + ":" + seconds;
+				
+				document.getElementById('timer').innerHTML = time;
+				setTimeout(startTimer, 1000);
+			}
+		</script>
+	</body>
+	</html>

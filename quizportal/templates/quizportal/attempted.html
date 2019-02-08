@@ -1,0 +1,22 @@
+{% extends 'base1.html' %}
+{% block body %}
+<div class="container" style="justify-content:center; margin-top:10%;">
+	<div class="container text-center">
+		<div class="container text-center">
+			<h1><b>You have already attempted this question</b></h1>
+		</div>
+		<br><br>
+		<div class="container text-center">
+			<a href="/score/{{id_no}}"><button class="btn btn-default">
+					<b>Your Score</b>
+				</button></a>
+		</div>
+		<footer>
+			<b>
+				<div class="text-center p-t-40" style="font-size: 15px;">
+					Developer :- Abhinav Sharma
+					<a href="https://www.facebook.com/abhinav.sharma.16906" class="fa fa-facebook"></a>
+				</div>
+			</b>
+		</footer>
+		{% endblock %}

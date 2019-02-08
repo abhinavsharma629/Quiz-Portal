@@ -1,0 +1,36 @@
+{% extends 'base1.html' %}
+{% block body %}
+<div class="container" style="justify-content:center; margin-top:10%;">
+	<div class="container text-center">
+		<div class="container text-center">
+			{% for i in id %}
+			<div class="page-header">
+				<h1>{{i.username}}</h1>
+			</div>
+
+			<div class="container">
+				<h1>Your Score is:- {{score}}</h1>
+			</div>
+			<br><br>
+			<div class="container">
+				<a href="/detail/{{id_no}}"><button class="btn btn-default">
+						<b>Back</b>
+					</button></a>
+			</div>
+			{% endfor %}
+		</div>
+		<footer>
+			<b>
+				<div class="text-center p-t-40" style="font-size: 15px;">
+					Developer :- Abhinav Sharma
+					<a href="https://www.facebook.com/abhinav.sharma.16906" class="fa fa-facebook"></a>
+				</div>
+			</b>
+		</footer>
+
+		<script>
+			$(document).ready(function () {
+				$('[data-toggle="tooltip"]').tooltip();
+			});
+		</script>
+		{% endblock %}

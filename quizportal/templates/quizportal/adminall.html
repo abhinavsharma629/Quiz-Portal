@@ -1,0 +1,39 @@
+{% extends 'adminbase.html' %}
+{% block body %}
+<div class="container" style="justify-content:center; margin-top:10%;">
+	<div class="container text-center">
+		<div class="container text-center">
+			<div class="page-header">
+				<h1><b>Details Of All Users</b></h1>
+			</div>
+			<br><br>
+			<table class="table table-bordered table-dark">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Username</th>
+						<th scope="col">Score</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for i,j in allusers.items %}
+					<tr>
+						<td>{{ forloop.counter }}</th>
+						<td>{{i}}</td>
+						<td>{{j}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<br>
+		</div>
+		<b>
+			<div class="text-center p-t-40" style="font-size: 20px;">
+				Developer :- Abhinav Sharma
+				<a href="https://www.facebook.com/abhinav.sharma.16906" class="fa fa-facebook"></a>
+			</div>
+		</b>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'adminbase.html' %}
+{% block body %}
+<div class="container" style="justify-content:center; margin-top:10%;">
+	<div class="container text-center">
+		<div class="container text-center">
+			<div class="page-header">
+				<h1><b>Hello Admin</b></h1>
+			</div>
+			<br><br>
+			<div class="container">
+				<a href="/adminall"><button class="btn btn-default">
+						<b>All Details</b>
+					</button></a>
+			</div>
+			<br>
+			<div class="container">
+				<a href="/admincsvupload"><button class="btn btn-default">
+						<b>Upload Questions(CSV File)</b>
+					</button></a>
+			</div>
+		</div>
+		<br>
+		<div class="container">
+			<a href="/logout"><button class="button">
+					<b>Logout</b>
+				</button></a>
+		</div>
+		<br><br><br><br>
+		<b>
+			<div class="text-center p-t-40" style="font-size: 20px;">
+				Developer :- Abhinav Sharma
+				<a href="https://www.facebook.com/abhinav.sharma.16906" class="fa fa-facebook"></a>
+			</div>
+		</b>
+	</div>
+</div>
+{% endblock %}
